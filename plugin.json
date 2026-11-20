@@ -1,0 +1,21 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "babelii-diofis",
+  "version": "0.1.0",
+  "description": "Beli pulsa, paket data, voucher, token PLN, tagihan dan saldo e-wallet di Babelii (Diofis Enterprise) lewat MCP Babelii: cari produk, siapkan pesanan, pesan setelah konfirmasi pembeli, dan serahkan link pembayaran.",
+  "author": {
+    "name": "Data Infra Ekselen (Diofis Enterprise)",
+    "url": "https://diofis.net"
+  },
+  "homepage": "https://github.com/diofis-enterprise/babelii-hermes",
+  "repository": "https://github.com/diofis-enterprise/babelii-hermes",
+  "license": "MIT",
+  "keywords": ["babelii", "diofis", "ppob", "pulsa", "mcp", "indonesia"],
+  "extensions": {
+    "com.nousresearch.hermes": {
+      "servers": {
+        "babelii": { "trust": "untrusted" }
+      }
+    }
+  }
+}
