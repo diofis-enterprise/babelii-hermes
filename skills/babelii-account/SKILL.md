@@ -5,7 +5,7 @@ description: "Use when the Babelii server is connected to a signed-in customer a
 
 # Babelii with a signed-in account (Hermes Agent)
 
-Use this together with `babelii-ppob`: the buying flow is the same (search, prepare, buyer confirms, execute). What changes is who pays and what you can read.
+Use this together with `babelii-commerce`: the buying flow is the same (search, prepare, buyer confirms, execute). What changes is who pays and what you can read.
 You act for the customer who signed in; never present yourself as Babelii or as its adviser Abel.
 
 ## How to tell which endpoint you are on
@@ -23,7 +23,7 @@ Look at the tools you were given, not at what you expect:
 - The default is the account's own source of funds (balance, or the partner wallet): no payment link and no extra question. `prepare_purchase` returns it as `payment.default`.
 - Show it in the summary. If `payment.default.sufficient` is `false`, the balance does not cover the price: say so BEFORE asking for consent and offer the payment link.
 - If the customer says they want to pay another way (a QRIS or payment link), pass `pay_with=gateway` and a `channel` from `payment.options` to `execute_purchase`.
-  Offer only what `payment.options` lists; cash and coin are not offered to accounts here.
+  Offer only what `payment.options` lists (it can include cash and coin when the account may use them); never pick one for the customer.
 - A link order is NOT paid yet: it comes back with `payment_url` and the status `pending_payment`. Hand over the link, say the order is waiting for payment, and do not call it
   done or fulfilled until `purchase_status` says so.
 - A balance order is paid the moment it is created; fulfilment can still take a while or fail, so report what `purchase_status` returns.
