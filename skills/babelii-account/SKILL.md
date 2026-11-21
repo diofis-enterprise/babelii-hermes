@@ -14,7 +14,7 @@ Look at the tools you were given, not at what you expect:
 
 - `account_overview` (and the other `account_*` tools) are listed: the customer signed in AND allowed reading the account.
 - `purchase_history` is listed but no `account_*` tool: they signed in but did not allow reading the account (or signed in before that permission existed).
-  Say so and tell them they can sign in again to allow it; never guess balances or history.
+  Say so and tell them they can sign in again to allow it (or, for a personal token, set *Account data* to read on the AI agent tokens page); never guess balances or history.
 - Neither is listed: this is the anonymous endpoint. Orders there are paid through a link. If the customer says they have an account or a balance, tell them to run
   `hermes mcp add babelii-diofis --url https://babelii.diofis.net/mcp/account/ --auth oauth`.
 

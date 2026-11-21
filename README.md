@@ -13,6 +13,8 @@ hermes plugins install diofis-enterprise/babelii-hermes --enable
 Portable packages install **disabled**; `--enable` turns it on (or run `hermes plugins enable babelii-diofis` afterwards). To pin an exact version, install a full 40-character commit with `--ref <sha>`.
 Plugin key: `babelii-diofis`. A Hermes Plugin Catalog submission is open ([NousResearch/hermes-agent#158469](https://github.com/NousResearch/hermes-agent/pull/158469)); this README will say so when it is listed.
 
+Guide on the Babelii site: [babelii.diofis.net/en/ai/hermes](https://babelii.diofis.net/en/ai/hermes).
+
 ## How it works
 
 - `mcp.json` points at Babelii's public commerce MCP, `https://babelii.diofis.net/mcp/commerce/` (Streamable HTTP, no sign-in). The server key is `babelii-diofis`, so Hermes names the tools `mcp__babelii_diofis__<tool>`.
@@ -40,7 +42,45 @@ mcp_servers:
 ```
 
 - **Pay from the balance, or another way.** Balance is the default and needs no extra question. If the buyer says they want to pay another way (a QRIS or payment link), the agent passes `pay_with=gateway`; that order waits for payment and is not fulfilled until the link is paid. If the balance does not cover the price, the summary says so before asking for consent and offers the link.
-- **Account tools** (read only): `account_overview`, `account_balance_history`, `account_topups`, `account_schedules`, `account_schedule_runs` and `account_notifications`. They are listed only when the sign-in granted account access (`account:read`, shown on the consent page); connections made before that scope existed need to sign in again to get them. `purchase_history` and `search_knowledge` are also available on the account endpoint.
+- **Account tools** (read only): `account_overview`, `account_balance_history`, `account_topups`, `account_schedules`, `account_schedule_runs` and `account_notifications`. They are listed only when the sign-in granted account access (`account:read`, shown on the consent page, or the *Account data* choice on a personal token); connections made before that scope existed need to sign in again to get them. `purchase_history` and `search_knowledge` are also available on the account endpoint.
+### On a server without a browser (VPS, home lab)
+
+Two ways, pick one:
+
+**A. OAuth, with a longer wait.** `hermes mcp add` waits only 30 seconds for the sign-in by default, which is not enough to open the link, sign in and approve. Put a longer wait in the server entry, then log in separately:
+
+```yaml
+mcp_servers:
+  babelii-diofis:
+    url: https://babelii.diofis.net/mcp/account/
+    auth: oauth
+    trust: untrusted
+    connect_timeout: 300
+```
+
+```
+hermes mcp login babelii-diofis
+```
+
+Open the printed address in any browser (it does not have to be on the server), sign in and approve. The browser then fails to open `http://127.0.0.1:<port>/callback?...` because that address points at your own computer: copy the whole address from the browser's address bar and paste it into the Hermes prompt ("Or paste the redirect URL here"). Then `hermes mcp test babelii-diofis` should list the account tools.
+
+**B. A personal token, no sign-in flow.** In your Babelii account open **AI agent tokens**, create a token, choose what it may do (balance orders, and under *Account data* whether it may read balance and history), and set the limits. The token is shown once. Keep it in the Hermes `.env` and reference it from the server entry:
+
+```
+BABELII_TOKEN=<the token>
+```
+
+```yaml
+mcp_servers:
+  babelii-diofis:
+    url: https://babelii.diofis.net/mcp/account/
+    headers:
+      Authorization: Bearer ${BABELII_TOKEN}
+    trust: untrusted
+```
+
+The tools you see follow what the token may do: a token without *Account data* does not list the `account_*` tools. Revoke it any time from the same page.
+
 - Ordering and reading the account are separate grants: the consent page also sets the per-order, per-day and per-hour limits, and the customer can revoke the connection at any time from the AI agent tokens page of their account.
 
 ## Trust
