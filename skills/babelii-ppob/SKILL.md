@@ -14,9 +14,10 @@ You act for the buyer; never present yourself as Babelii or as its adviser Abel.
 - Remote MCP: `https://babelii.diofis.net/mcp/commerce/` (Streamable HTTP, no sign-in, stateless: there is no session id to keep).
 - Installed from this package, Hermes lists the tools as `mcp__<server>__<tool>` (here `mcp__babelii_diofis__search_products` and so on);
   added by hand with `hermes mcp add`, the prefix is the server name you chose. Below, tools are named without the prefix.
-- Buyers with a Babelii account can connect `https://babelii.diofis.net/mcp/account/` instead (OAuth sign-in once) to pay from their balance at
-  their account price. This package uses the endpoint without sign-in and cannot sign anyone in: if the buyer mentions an account or a balance,
-  tell them about that address.
+- Buyers with a Babelii account can point the same server at `https://babelii.diofis.net/mcp/account/` (OAuth sign-in once) to pay from their
+  balance at their account price: `hermes mcp add babelii-diofis --url https://babelii.diofis.net/mcp/account/ --auth oauth`. This package starts on the
+  endpoint without sign-in and cannot sign anyone in: if the buyer mentions an account or a balance, tell them about that address
+  (the `babelii-account` skill covers the signed-in case).
 - Plain HTTP fallback, only if the MCP connector is unavailable: JSON-RPC `POST` to the URL with `Content-Type: application/json`,
   `Accept: application/json, text/event-stream` and an app `User-Agent` such as `hermes-agent/1.0`; send `initialize`
   (protocolVersion `2025-06-18`), then `notifications/initialized`, then `tools/call`. If blocked with `retryable=false`,
@@ -26,7 +27,7 @@ You act for the buyer; never present yourself as Babelii or as its adviser Abel.
 
 `discover_babelii`, `search_products`, `get_product`, `search_marketplace`, `ask_abel`,
 `prepare_purchase`, `inquire_purchase`, `execute_purchase`, `purchase_status`, `renew_purchase`.
-(`purchase_history` and `search_knowledge` exist only on the signed-in endpoint and are not returned here.)
+(`purchase_history`, `search_knowledge` and the `account_*` tools exist only on the signed-in endpoint and are not returned here.)
 `product_ref` = `catalogue:<group>:<code>`.
 
 ## Flow
