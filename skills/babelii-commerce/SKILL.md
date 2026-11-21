@@ -26,9 +26,31 @@ You act for the buyer; never present yourself as Babelii or as its adviser Abel.
 
 ## Tools
 
-`discover_babelii`, `search_products`, `get_product`, `search_marketplace`, `ask_abel`,
-`prepare_purchase`, `inquire_purchase`, `execute_purchase`, `purchase_status`, `renew_purchase`.
-(`purchase_history`, `search_knowledge` and the `account_*` tools exist only on the signed-in endpoint and are not returned here.)
+Tools marked **account only** exist only on the signed-in endpoint and are not returned on the default one; never call a tool that is not in your `tools/list`.
+
+<!-- tools-table:begin (generated from the Hub toolspec: python -m hub.mcp.skilltable; do not edit by hand) -->
+| Tool | Purpose |
+|---|---|
+| `discover_babelii` | identifies Babelii and the access your connection has (guest or account); call it first if you are unsure which tools are available |
+| `search_products` | search products; every orderable row states the price and `requires_destination`, `needs_inquiry`, `open_denom` as true/false (nothing is left to guess). Pages of 10 rows (`limit` up to 20); a `more` note means there are more |
+| `get_product` | details of one product (optional) |
+| `search_marketplace` | browse Babelii's Marketplace: other vendors sell hotspot vouchers, food, services and goods. Read-only; hotspot vouchers in stock are ordered like ordinary products, other listings are bought through the `buy_url` on their product page. Each listing has an `order_via` that says how to buy it (see the Marketplace section). A result with `sold_out=true` means that vendor's stock is currently empty. `buy_requests` are things buyers are LOOKING FOR, not things for sale |
+| `prepare_purchase` | prepares an order without creating it; for `needs_inquiry` products it runs the name/bill check itself. The result carries a `policy` block: validity, renewals left, per-order and hourly limits, and that a limit refusal is final |
+| `execute_purchase` | creates the order from the result of `prepare_purchase`. The default payment method (`payment.default` in the summary) is used when `pay_with` is omitted; if the buyer already named how to pay, pass `pay_with` (and `channel` for gateway) from `payment.options`. A signed-in account pays from its balance by default; if the buyer asks for a payment link, `pay_with=gateway` creates an order that waits for payment (hand over `payment_url`; not done until paid) |
+| `purchase_status` | order status; pass EXACTLY ONE of `intent_id`, `order_number`, `order_id` or `track_url` (two or none is refused) |
+| `inquire_purchase` | separate customer name check (rarely needed; it has a cost, do not repeat it) |
+| `renew_purchase` | refreshes the price of an already prepared quote (at most three times, no new order) |
+| `purchase_history` | **account only** (login required): the account's order history. Not available on the connection without login; do not try it there |
+| `account_overview` | **account only** (needs login and the account permission): own account summary: balance, credit limit, spendable amount, pending top-ups, active schedules, unread notifications. Read only; absent on the connection without login |
+| `account_balance_history` | **account only** (needs login and the account permission): own balance ledger, newest first. Read only |
+| `account_topups` | **account only** (needs login and the account permission): own top-up requests with status. Read only |
+| `account_schedules` | **account only** (needs login and the account permission): own scheduled purchases; the destination is masked. Read only |
+| `account_schedule_runs` | **account only** (needs login and the account permission): run history of one scheduled purchase (schedule_id from `account_schedules`). Read only |
+| `account_notifications` | **account only** (needs login and the account permission): own notifications. Read only |
+| `ask_abel` | ask Abel, the separate product adviser, if this tool is available to you |
+| `search_knowledge` | **account only** (login required): official explanation of how Babelii works; not a source of prices. Without login, use the guide at https://babelii.diofis.net/en/ai or the customer service address below |
+<!-- tools-table:end -->
+
 `product_ref` = `catalogue:<group>:<code>`.
 
 ## Which tool: digital product or Marketplace
