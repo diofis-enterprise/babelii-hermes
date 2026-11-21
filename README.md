@@ -1,6 +1,6 @@
 # Babelii-Diofis
 
-Connect your Hermes Agent to **Babelii** (Diofis Enterprise, PT / Data Infra Ekselen), an Indonesian digital commerce platform: pulsa (phone credit), data vouchers, data packages, PLN tokens, bill payments, e-wallet top-ups (DANA, GoPay, OVO, ShopeePay) and game vouchers, plus the **Marketplace**, where other vendors sell hotspot vouchers, food, services and goods.
+Connect your Hermes Agent to **Babelii** (Diofis Enterprise, PT / Data Infra Ekselen), an Indonesian **Commerce Platform**: pulsa (phone credit), data vouchers, data packages, PLN tokens, bill payments, e-wallet top-ups (DANA, GoPay, OVO, ShopeePay) and game vouchers, plus physical goods, food, hotspot vouchers and services from other vendors. All of it is in this package.
 
 The package is a **portable Agent Plugins v1 bundle**: one remote MCP connector plus two skills (the buying workflow, and one for signed-in accounts). There is no local agent code and no bundled binary.
 
@@ -19,7 +19,7 @@ Guide on the Babelii site: [babelii.diofis.net/en/ai/hermes](https://babelii.dio
 
 - `mcp.json` points at Babelii's public commerce MCP, `https://babelii.diofis.net/mcp/commerce/` (Streamable HTTP, no sign-in). The server key is `babelii-diofis`, so Hermes names the tools `mcp__babelii_diofis__<tool>`.
 - The bundled `babelii-commerce` skill walks the agent through: search products, ask only for what is missing, `prepare_purchase`, show one summary, the buyer confirms, `execute_purchase`, hand over the payment link. It also covers the Marketplace (`search_marketplace`: how to read each listing's `order_via`, when to use `search_products` and when only the listing's `buy_url`, and that `buy_requests` are what buyers are *looking for*, not items for sale), how to read `needs_inquiry` / `open_denom` / `sold_out`, and the transaction policy (quote validity, renewals, limits, a limit refusal is final) that every `prepare_purchase` result also states in its `policy` block.
-- The skill was named `babelii-ppob` up to v0.3.1; it is now `babelii-commerce` because its scope is wider than PPOB.
+- The skill was named `babelii-ppob` up to v0.3.1; it is now `babelii-commerce` because one skill covers everything Babelii sells. Nothing was removed.
 - **Payment method.** The default (a payment link, QRIS first) applies unless the buyer asks otherwise. `prepare_purchase` returns the default and the choices; if the buyer already named how to pay, the agent uses it, otherwise the summary tells them they can change it.
 - Anonymous orders are paid by the buyer through the returned payment link; fulfilment starts after the payment settles. No card data or passwords ever pass through the agent.
 - Buyers with a Babelii account can point the same server at `https://babelii.diofis.net/mcp/account/` (OAuth sign-in once): see **With a Babelii account** below. The package itself does not sign anyone in and starts on the endpoint without sign-in. This is a limit of the portable plugin format, not a choice: a portable `mcp.json` entry may only carry `type`, `url` and `headers`, its URL is taken literally (no placeholders or parameters), and OAuth is switched on only by `auth: oauth` in your own `config.yaml`. So the account address cannot be shipped or selected from inside the package; the one-line command below is the whole step.

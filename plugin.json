@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "babelii-diofis",
-  "version": "0.4.0",
-  "description": "Belanja di Babelii (Diofis Enterprise) lewat MCP: pulsa, paket data, voucher, token PLN, tagihan, saldo e-wallet, dan Marketplace (voucher hotspot, makanan, jasa, barang). Cari, siapkan pesanan, pesan setelah konfirmasi pembeli, dan serahkan link pembayaran.",
+  "version": "0.4.1",
+  "description": "Babelii (Diofis Enterprise), Commerce Platform Indonesia, lewat MCP: pulsa, paket data, voucher, token PLN, tagihan, saldo e-wallet, serta barang fisik, makanan, voucher hotspot, dan jasa dari vendor lain. Cari, siapkan pesanan, pesan setelah konfirmasi pembeli, dan serahkan link pembayaran.",
   "author": {
     "name": "Data Infra Ekselen (Diofis Enterprise)",
     "url": "https://diofis.net"

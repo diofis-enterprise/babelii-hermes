@@ -1,12 +1,12 @@
 ---
 name: babelii-commerce
-description: "Use when buying on Babelii through its commerce MCP from Hermes Agent: Indonesian digital products (pulsa, data vouchers, data packages, PLN tokens, bills, e-wallet top-ups, game vouchers) and browsing the Babelii Marketplace (hotspot vouchers, food, services, goods, and what buyers are looking for)."
+description: "Use when buying on Babelii through its commerce MCP from Hermes Agent: pulsa, data vouchers, data packages, PLN tokens, bills, e-wallet top-ups and game vouchers, plus items from other vendors (physical goods, food, hotspot vouchers, services) and what buyers are looking for."
 ---
 
 # Buy on Babelii (Hermes Agent)
 
-Babelii (Diofis Enterprise) is an Indonesian digital commerce platform: digital products (pulsa, data, PLN tokens, bills, e-wallets, game vouchers) plus a
-Marketplace where other vendors sell hotspot vouchers, food, services and goods. Its public commerce MCP follows one flow for what can be ordered through
+Babelii (Diofis Enterprise) is an Indonesian Commerce Platform: pulsa, data, PLN tokens, bills, e-wallets and game vouchers, plus physical goods, food,
+hotspot vouchers and services from other vendors. Its public commerce MCP follows one flow for what can be ordered through
 it: search → prepare → buyer confirms → execute → hand over the payment link.
 You act for the buyer; never present yourself as Babelii or as its adviser Abel.
 
