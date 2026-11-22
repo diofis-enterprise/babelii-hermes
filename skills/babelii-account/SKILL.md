@@ -55,3 +55,12 @@ Babelii does not send your agent a message when a payment link is paid. This hol
 - Offer, in one line and only for a link that is still unpaid, to watch it for them. Only if the customer says yes, set up ONE scheduled task in Hermes's own scheduler that calls the read-only `account_topups` every few minutes, tells the customer as soon as the status is `paid`, and stops (removes itself) on `paid`, `expired` or `cancelled`. Never leave it running with no end.
 - The watch only reads. It must not call `execute_topup`, `prepare_purchase`, `execute_purchase` or any other tool that writes, and you must never schedule a purchase or top-up on your own: a write tool is refused in unattended runs and needs the customer's approval each time.
 - Do not poll on your own initiative, and do not start a watch the customer did not accept.
+
+## Recurring purchases (phone credit, electricity, top-ups on a schedule)
+
+Babelii runs scheduled purchases itself. Do not rebuild them in Hermes's scheduler.
+
+- The customer creates the schedule on their account at `https://babelii.diofis.net/scheduled-purchases/create`: product, destination, how often, an optional price cap (`max_price`) and an end. You cannot create one yet; you can only read them (`account_schedules`, `account_schedule_runs`, and the counts in `account_overview`). Say so plainly and give the link.
+- What the customer can rely on, and may be told when they ask: the price is worked out again at every run, never frozen from the day it was set up; a run whose price is above the cap is skipped; a run with too little balance waits and the customer is told; a product that has disappeared from the catalogue stops the schedule and the customer is asked to choose a replacement; after repeated failures in a row (three by default) the schedule is suspended and the customer is told how to turn it back on.
+- Your part is reading, not running: report the next run and the last results from `account_schedules` and `account_schedule_runs`, and if `account_overview` shows the spendable balance is below what the next run costs, say so and offer a top-up (`execute_topup`, with the customer's approval).
+- Do not imitate a schedule by having Hermes's scheduler call `execute_purchase`. Write tools are refused in unattended runs under `trust: untrusted`, and if the customer raised the trust level, an unattended order would bypass the cap and the stop rules above. A schedule on Babelii is the safer way.
