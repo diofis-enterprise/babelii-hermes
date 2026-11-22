@@ -44,6 +44,7 @@ Tools marked **account only** exist only on the signed-in endpoint and are not r
 | `account_overview` | **account only** (needs login and the account permission): own account summary: balance, credit limit, spendable amount, pending top-ups, active schedules, unread notifications. Read only; absent on the connection without login |
 | `account_balance_history` | **account only** (needs login and the account permission): own balance ledger, newest first. Read only |
 | `account_topups` | **account only** (needs login and the account permission): own top-up requests with status. Read only |
+| `execute_topup` | **account only** (login required): requests a top-up of the own balance: creates a payment link (nothing is debited; the balance grows after the link is paid). Show the amount and get the account owner's approval first, then `confirmed=true`; hand over `payment_url`, never call it done |
 | `account_schedules` | **account only** (needs login and the account permission): own scheduled purchases; the destination is masked. Read only |
 | `account_schedule_runs` | **account only** (needs login and the account permission): run history of one scheduled purchase (schedule_id from `account_schedules`). Read only |
 | `account_notifications` | **account only** (needs login and the account permission): own notifications. Read only |

@@ -21,7 +21,7 @@ Look at the tools you were given, not at what you expect:
 ## Paying
 
 - The default is the account's own source of funds (balance, or the partner wallet): no payment link and no extra question. `prepare_purchase` returns it as `payment.default`.
-- Show it in the summary. If `payment.default.sufficient` is `false`, the balance does not cover the price: say so BEFORE asking for consent and offer the payment link.
+- Show it in the summary. If `payment.default.sufficient` is `false`, the balance does not cover the price: say so BEFORE asking for consent and offer the payment link, or to top up the balance with `execute_topup` (see below).
 - If the customer says they want to pay another way (a QRIS or payment link), pass `pay_with=gateway` and a `channel` from `payment.options` to `execute_purchase`.
   Offer only what `payment.options` lists (it can include cash and coin when the account may use them); never pick one for the customer.
 - A link order is NOT paid yet: it comes back with `payment_url` and the status `pending_payment`. Hand over the link, say the order is waiting for payment, and do not call it
@@ -36,6 +36,7 @@ Look at the tools you were given, not at what you expect:
 | `account_overview` | balance, credit limit, spendable amount, counts of pending top-ups, active schedules, unread notifications |
 | `account_balance_history` | the balance ledger, newest first (`limit` up to 50; pass `next_before_id` as `before_id` for the next page) |
 | `account_topups` | top-up requests and their status |
+| `execute_topup` | requests a top-up of the own balance: creates a payment link for the amount (min Rp10,000, max Rp1,000,000 per request, up to 3 unpaid at a time). Nothing is debited and the balance does NOT change until the link is paid. Show the amount, get the owner's approval, then pass `confirmed=true` and hand over `payment_url`; never call it done. Needs the right to order (`orders.execute`); the same pending amount returns the same link |
 | `account_schedules` | scheduled purchases: product, masked destination, recurrence, status, next run |
 | `account_schedule_runs` | what happened on each run of one schedule (`schedule_id` from `account_schedules`) |
 | `account_notifications` | notifications, `unread_only` to filter |
