@@ -45,3 +45,13 @@ Look at the tools you were given, not at what you expect:
 - State amounts exactly as returned. Destinations are masked by the server; do not try to reconstruct them.
 - Only the signed-in customer's own data is reachable. If asked about someone else's account, say you cannot.
 - Never ask for passwords, PINs or OTPs. Signing in happens in the customer's browser on babelii.diofis.net, not through you.
+
+## Knowing when a payment link was paid
+
+Babelii does not send your agent a message when a payment link is paid. This holds for a top-up and for an order paid by link: your Hermes has no public address for Babelii to call, and a signed-in connection has no callback registered. Nothing arrives by itself, so:
+
+- After you hand over a payment link, say plainly that you will not be told when it is paid, and that the customer can ask you to check.
+- When the customer asks whether it went through, check ONCE: `account_topups` for a top-up (status `paid`, `pending`, `expired` or `cancelled`), `purchase_status` for an order, and `account_overview` for the balance. Report what the tool returns; never assume a payment arrived.
+- Offer, in one line and only for a link that is still unpaid, to watch it for them. Only if the customer says yes, set up ONE scheduled task in Hermes's own scheduler that calls the read-only `account_topups` every few minutes, tells the customer as soon as the status is `paid`, and stops (removes itself) on `paid`, `expired` or `cancelled`. Never leave it running with no end.
+- The watch only reads. It must not call `execute_topup`, `prepare_purchase`, `execute_purchase` or any other tool that writes, and you must never schedule a purchase or top-up on your own: a write tool is refused in unattended runs and needs the customer's approval each time.
+- Do not poll on your own initiative, and do not start a watch the customer did not accept.

@@ -82,7 +82,7 @@ mcp_servers:
 
 The tools you see follow what the token may do: a token without *Account data* does not list the `account_*` tools. Revoke it any time from the same page.
 
-- **Top up the balance.** With the account endpoint the agent can also top up the balance: `execute_topup` creates a payment link for the amount the buyer approved (minimum Rp10,000, at most Rp1,000,000 per request, up to 3 unpaid at a time). Nothing is debited, and the balance grows only after the link is paid. It needs the right to order, and `confirmed=true` after the buyer approved the amount.
+- **Top up the balance.** With the account endpoint the agent can also top up the balance: `execute_topup` creates a payment link for the amount the buyer approved (minimum Rp10,000, at most Rp1,000,000 per request, up to 3 unpaid at a time). Nothing is debited, and the balance grows only after the link is paid. It needs the right to order, and `confirmed=true` after the buyer approved the amount. Babelii does not notify the agent when the link is paid (nothing can call a Hermes that has no public address), so ask the agent to check (`account_topups`), or accept its offer to run a read-only scheduled check that stops on `paid`, `expired` or `cancelled`.
 - Ordering and reading the account are separate grants: the consent page also sets the per-order, per-day and per-hour limits, and the customer can revoke the connection at any time from the AI agent tokens page of their account.
 
 ## Trust
