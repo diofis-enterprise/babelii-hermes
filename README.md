@@ -11,7 +11,7 @@ hermes plugins install diofis-enterprise/babelii-hermes --enable
 ```
 
 Portable packages install **disabled**; `--enable` turns it on (or run `hermes plugins enable babelii-diofis` afterwards). To pin an exact version, install a full 40-character commit with `--ref <sha>`.
-Plugin key: `babelii-diofis`. A Hermes Plugin Catalog submission is open ([NousResearch/hermes-agent#158469](https://github.com/NousResearch/hermes-agent/pull/158469)); this README will say so when it is listed.
+Plugin key: `babelii-diofis`. Listed in the Hermes Plugin Catalog (community tier): [Babelii-Diofis on the Hermes Marketplace](https://hermes-agent.nousresearch.com/marketplace/babelii-diofis). On a Hermes version whose catalog includes it, install by name with `hermes plugins install babelii-diofis --enable`; if Hermes says the name is not in its catalog, update Hermes or use the repository form above.
 
 Guide on the Babelii site: [babelii.diofis.net/en/ai/hermes](https://babelii.diofis.net/en/ai/hermes).
 
